@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/gurobi_api.dir/main.cpp.o -o gurobi_api   -L/home/wangyuan@sribd.cn/Downloads/gurobi1100/linux64/lib  -Wl,-rpath,/home/wangyuan@sribd.cn/Downloads/gurobi1100/linux64/lib /home/wangyuan@sribd.cn/Downloads/gurobi1100/linux64/src/build/libgurobi_c++.a -lgurobi110 

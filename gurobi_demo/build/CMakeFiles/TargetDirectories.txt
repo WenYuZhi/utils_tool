@@ -1,0 +1,3 @@
+/home/wangyuan@sribd.cn/codespace/gurobi_demo/build/CMakeFiles/gurobi_api.dir
+/home/wangyuan@sribd.cn/codespace/gurobi_demo/build/CMakeFiles/edit_cache.dir
+/home/wangyuan@sribd.cn/codespace/gurobi_demo/build/CMakeFiles/rebuild_cache.dir
