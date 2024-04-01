@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -O3 CMakeFiles/cplex_api.dir/main.cpp.o -o cplex_api   -L/home/wangyuan@sribd.cn/cplex_studio2210/cplex/lib  -Wl,-rpath,/home/wangyuan@sribd.cn/cplex_studio2210/cplex/lib /home/wangyuan@sribd.cn/cplex_studio2210/cplex/lib/x86-64_linux/static_pic/libcplex.a /home/wangyuan@sribd.cn/cplex_studio2210/cplex/lib/x86-64_linux/static_pic/libilocplex.a 
