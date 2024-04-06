@@ -66,6 +66,17 @@ problem.linear_constraints.set_linear_components("c2", [("x1_new", "x3_new"), (0
 # set minimize
 # problem.objective.set_sense(model.objective.sense.maximize)
 problem.objective.set_sense(problem.objective.sense.minimize)
+problem.objective.set_offset(10) # offset = 10
+
+objective_sense = problem.objective.get_sense()
+if objective_sense == problem.objective.sense.minimize:
+    print("objective sense: min")
+elif objective_sense == problem.objective.sense.maximize:
+    print("objective sense: max")
+
+# get offset
+offset = problem.objective.get_offset()
+print("offset:", offset)
 
 # set rhs
 problem.linear_constraints.set_rhs("c2", 12)
