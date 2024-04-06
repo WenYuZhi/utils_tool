@@ -2,6 +2,29 @@
 #include <string>
 #include <gurobi_c++.h>
 
+void getCSRFormat(GRBModel& model, std::vector<int>& rowStart, std::vector<int>& colIdx, std::vector<double>& colCoeff) {
+    rowStart.clear();
+    colIdx.clear();
+    colCoeff.clear();
+    GRBConstr* constrs = model.getConstrs();
+    int numCols = model.get(GRB_IntAttr_NumVars);
+    int numRows = model.get(GRB_IntAttr_NumConstrs);
+    int nzCount = 0;
+    rowStart.push_back(0); // 初始化第一个元素
+    
+    for (int i = 0; i < numRows; ++i) {
+        for (int j = 0; j < numCols; ++j) {
+            double coeff = model.getCoeff(model.getConstr(i), model.getVar(j));
+            if (coeff != 0) {
+                colIdx.push_back(j);
+                colCoeff.push_back(coeff);
+                nzCount++;
+            }
+        }
+        rowStart.push_back(nzCount);
+    }
+}
+
 int main(int argc, const char ** argv)
 {
     GRBEnv env;
@@ -65,12 +88,16 @@ int main(int argc, const char ** argv)
     // set start point
     x.set(GRB_DoubleAttr_Start, 0.0);
     model.optimize();
+    
 
+    // get solution
     int status = model.get(GRB_IntAttr_Status);
 
     switch (status) {
         case GRB_OPTIMAL:
             std::cout << "Optimal solution found." << std::endl;
+            std::cout << x.get(GRB_StringAttr_VarName) << ":" << x.get(GRB_DoubleAttr_X) << std::endl;
+            std::cout << "Objective value: " << model.get(GRB_DoubleAttr_ObjVal) << std::endl;
             break;
         case GRB_INFEASIBLE:
             std::cout << "Model is infeasible." << std::endl;
@@ -121,19 +148,21 @@ int main(int argc, const char ** argv)
     std::vector<int> colIdx; 
     std::vector<double> colCoeff; 
 
-    rowStart.push_back(0);
-    int numOfIdx = 0;
-    for (int i = 0; i < numRows; ++i) {
-        for (int j = 0; j < numCols; ++j) {
-            double coeff = model.getCoeff(model.getConstr(i), model.getVar(j));
-            if (coeff != 0) {
-                colIdx.push_back(j);
-                colCoeff.push_back(coeff);
-                numOfIdx++;
-            }
-        }
-        rowStart.push_back(numOfIdx);
-    }
+    getCSRFormat(model, rowStart, colIdx, colCoeff);
+
+    // rowStart.push_back(0);
+    // int numOfIdx = 0;
+    // for (int i = 0; i < numRows; ++i) {
+    //     for (int j = 0; j < numCols; ++j) {
+    //         double coeff = model.getCoeff(model.getConstr(i), model.getVar(j));
+    //         if (coeff != 0) {
+    //             colIdx.push_back(j);
+    //             colCoeff.push_back(coeff);
+    //             numOfIdx++;
+    //         }
+    //     }
+    //     rowStart.push_back(numOfIdx);
+    // }
     
     
     // read model file
